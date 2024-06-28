@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { AsymmetricKeySigner } from "@dfns/sdk-keysigner";
 import { DfnsApiClient } from "@dfns/sdk";
+import { serializeTransaction } from "viem";
 
 dotenv.config();
 
@@ -32,25 +33,48 @@ const dfnsApi = new DfnsApiClient({
   signer,
 });
 
-const wallet = await dfnsApi.wallets.createWallet({
-  body: { network: "EthereumSepolia" },
-});
+async function transferKlay() {
+  const unsigned_tx = serializeTransaction({
+    value: 0n,
+    to: "0xe19a8f89b38465744d4029165d3df4a17b2e40f1",
+    type: "eip1559",
+    chainId: 11155111,
+  });
 
-console.log(wallet);
+  // const generateSignature_res = await dfnsApi.wallets.generateSignature({
+  //   walletId: "wa-1nr2a-98dvm-9rtps21d7pmcp86a",
+  //   body: {
+  //     kind: "Transaction",
+  //     transaction: unsigned_tx,
+  //   },
+  // });
 
-const list = await dfnsApi.wallets.listWallets({});
+  // const signed_tx = generateSignature_res.signedData;
+  // if (!signed_tx) {
+  //   throw new Error("DFNS did not return a signed transaction");
+  // }
 
-// const tranfers = await dfnsApi.wallets.transferAsset({
-//   walletId: "123",
-//   body: {
-//     amount: "100",
-//     kind: "Erc20",
-//     to: "0x123",
-//     contract: "0x123",
-//     priority: "Fast",
-//   },
-// });
+  // const broadcast_res = await dfnsApi.wallets.broadcastTransaction({
+  //   walletId: "wa-1vt1v-oq0t1-8paoj98g86d04fp9",
+  //   body: {
+  //     kind: "Transaction",
+  //     transaction: unsigned_tx,
+  //   },
+  // });
 
-console.log(JSON.stringify(tranfers));
+  // return broadcast_res;
 
-// pnpm exec tsx index.ts
+  const newenduser = await dfnsApi.auth.registerEndUser({
+    body: {
+      firstFactorCredential: {
+        credentialKind: "Password",
+        credentialInfo: { password: "pass" },
+      },
+      wallets: [{ network: "EthereumSepolia" }],
+    },
+  });
+
+  console.log(newenduser);
+}
+
+transferKlay();

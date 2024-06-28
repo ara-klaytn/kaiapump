@@ -15,9 +15,10 @@ const mockTokens = [
   },
   {
     id: 2,
-    name: "Pepeblack",
-    ticker: "Pepeblack",
-    description: "Pepe Black It’s just a Black Pepe 👁️",
+    name: "Kayatoast",
+    ticker: "KTST",
+    description:
+      "Kayatoast is a Kaia meme coin Kayatoast is a Kaia meme coinKayatoast",
     marketCap: "4.71K",
     creator: "7tqA6K",
     image:
@@ -189,7 +190,8 @@ const UserProfile = () => {
         />
         <div>
           <h2 className="text-xl font-bold text-black">User Name</h2>
-          <p className="text-sm text-gray-500">Email: user@example.com</p>
+          <p className="text-sm text-gray-500">Address: 0x123828678</p>
+          <p className="text-sm text-gray-500">Telegram ID: 123456</p>
         </div>
       </div>
       <div className="flex flex-wrap">
